@@ -1,4 +1,4 @@
-module github.com/kucjac/traefik-block-ua
+module github.com/colinrobinsonuib/traefik-block-ua
 
 go 1.17
 
