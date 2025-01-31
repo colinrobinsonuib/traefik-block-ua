@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	ua "github.com/mileusna/useragent"
 )
@@ -52,7 +53,7 @@ func (p *Plugin) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	agent := ua.Parse(req.Header.Get("User-Agent"))
 
 	for knownAgent := range p.knownAgents {
-		if strings.Contains(agentName, knownAgent) {
+		if strings.Contains(agent.Name, knownAgent) {
 			log.Printf("%s: %s - access denied - blocked user agent: %s", p.name, req.URL.String(), agentName)
 			rw.WriteHeader(http.StatusForbidden)
 			return
