@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	tbua "github.com/kucjac/traefik-block-ua"
+	tbua "github.com/colinrobinsonuib/traefik-block-ua"
 )
 
 const pluginName = "userAgentBlocker"
