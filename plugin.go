@@ -54,7 +54,7 @@ func (p *Plugin) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 	for knownAgent := range p.knownAgents {
 		if strings.Contains(agent.Name, knownAgent) {
-			log.Printf("%s: %s - access denied - blocked user agent: %s", p.name, req.URL.String(), agentName)
+			log.Printf("%s: %s - access denied - blocked user agent: %s", p.name, req.URL.String(), agent.Name)
 			rw.WriteHeader(http.StatusForbidden)
 			return
 		}
