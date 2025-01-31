@@ -51,10 +51,13 @@ func New(_ context.Context, next http.Handler, cfg *Config, name string) (http.H
 func (p *Plugin) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	agent := ua.Parse(req.Header.Get("User-Agent"))
 
-	if _, ok := p.knownAgents[agent.Name]; ok {
-		log.Printf("%s: %s - access denied - blocked user agent: %s", p.name, req.URL.String(), agent.Name)
-		rw.WriteHeader(http.StatusForbidden)
-		return
+	for knownAgent := range p.knownAgents {
+		if strings.Contains(agentName, knownAgent) {
+			log.Printf("%s: %s - access denied - blocked user agent: %s", p.name, req.URL.String(), agentName)
+			rw.WriteHeader(http.StatusForbidden)
+			return
+		}
 	}
+	
 	p.next.ServeHTTP(rw, req)
 }
