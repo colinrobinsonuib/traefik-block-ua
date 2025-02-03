@@ -52,7 +52,7 @@ func (p *Plugin) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 	for knownAgent := range p.knownAgents {
 		if strings.Contains(agent, knownAgent) {
-			log.Printf("%s: - blocked %s - user agent: %s", p.name, knownAgent, agent
+			log.Printf("%s: - blocked %s - user agent: %s", p.name, knownAgent, agent)
 			rw.WriteHeader(http.StatusForbidden)
 			return
 		}
