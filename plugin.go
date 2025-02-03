@@ -6,8 +6,6 @@ import (
 	"log"
 	"net/http"
 	"strings"
-
-	ua "github.com/mileusna/useragent"
 )
 
 // Config defines the plugin dynamic configuration.
@@ -50,11 +48,11 @@ func New(_ context.Context, next http.Handler, cfg *Config, name string) (http.H
 
 // ServeHTTP implements http.Handler interface.
 func (p *Plugin) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	agent := ua.Parse(req.Header.Get("User-Agent"))
+	agent := req.Header.Get("User-Agent")
 
 	for knownAgent := range p.knownAgents {
-		if strings.Contains(agent.Name, knownAgent) {
-			log.Printf("%s: %s - access denied - blocked user agent: %s", p.name, req.URL.String(), agent.Name)
+		if strings.Contains(agent, knownAgent) {
+			log.Printf("%s: - blocked %s - user agent: %s", p.name, knownAgent, agent
 			rw.WriteHeader(http.StatusForbidden)
 			return
 		}
